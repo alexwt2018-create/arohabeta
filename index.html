@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Customizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <div class="browser-header">
+            <div class="browser-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="left-panel">
+                <h1 class="main-title">Firstly, bring your study buddy to life! ✨</h1>
+                
+                <div class="character-container">
+                    <div class="text-bubble">
+                        <span>Hello! My name is</span> <input type="text" class="name-input" placeholder="___">
+                        <div class="bubble-tail"></div>
+                    </div>
+                    <div class="character-wrapper">
+                        <svg viewBox="0 0 200 250" width="100%" height="100%">
+                             <!-- Legs -->
+                            <!-- Left Leg -->
+                            <path class="skin-path" d="M 70 200 L 60 240 Q 70 250 80 240 L 90 200" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                            
+                            <!-- Right Leg -->
+                            <path class="skin-path" d="M 130 200 L 140 240 Q 130 250 120 240 L 110 200" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+
+                            <!-- Upper Body Group -->
+                            <g class="character-upper-body" transform-origin="100 200">
+                                <!-- Left Arm -->
+                                <path class="skin-path" d="M 75 145 Q 40 155 25 175 Q 40 190 75 165" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                                
+                                <!-- Right Arm (Waving) -->
+                                <g class="waving-arm" transform-origin="125 155">
+                                    <path class="skin-path" d="M 125 145 Q 160 115 175 125 Q 160 155 125 165" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                                </g>
+
+                                <!-- Body -->
+                                <path class="skin-path" d="M 70 140 Q 100 130 130 140 L 130 200 Q 100 210 70 200 Z" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+
+                                <!-- Head -->
+                                <ellipse class="skin-path" cx="100" cy="90" rx="60" ry="50" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                                
+                                <!-- Hair -->
+                                <g id="hair-container"></g>
+                                
+                                <!-- Eyes -->
+                                <g id="eyes-container">
+                                    <path d="M 70 85 Q 75 75 85 85" fill="none" stroke="#6b7280" stroke-width="6" stroke-linecap="round"/>
+                                    <path d="M 115 85 Q 125 75 130 85" fill="none" stroke="#6b7280" stroke-width="6" stroke-linecap="round"/>
+                                </g>
+                                
+                                <!-- Blush -->
+                                <g id="blush-container">
+                                    <ellipse cx="65" cy="100" rx="8" ry="4" fill="#fca5a5" transform="rotate(-15 65 100)" opacity="0.8"/>
+                                    <ellipse cx="135" cy="100" rx="8" ry="4" fill="#fca5a5" transform="rotate(15 135 100)" opacity="0.8"/>
+                                </g>
+
+                                <!-- Smile -->
+                                <g id="smile-container">
+                                    <path d="M 90 110 Q 100 115 110 110" fill="none" stroke="#6b7280" stroke-width="4" stroke-linecap="round"/>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="shadow"></div>
+                </div>
+                
+            </div>
+            
+            <div class="middle-panel">
+                <div class="sidebar-buttons">
+                    <button class="sidebar-btn active" id="btn-body">
+                        <!-- Icon: Body -->
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="2"><path d="M12 4a2 2 0 100-4 2 2 0 000 4z"/><path d="M9 10v8h2v5h2v-5h2v-8c0-1.5-1-3-2.5-3h-3C9.5 7 8.5 8.5 8.5 10v3H7v-3c0-2.5 1.5-4.5 3.5-4.5h3c2 0 3.5 2 3.5 4.5v3h-1.5v-3c0-1.5-.5-3-1.5-3h-1c-.5 0-1 .5-1 1v7H11v-7c0-.5-.5-1-1-1h-1z"/></svg>
+                    </button>
+                    <button class="sidebar-btn" id="btn-clothes">
+                        <!-- Icon: Clothes -->
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="2"><path d="M15 4l1 3 4 1v4l-2 1v9H6v-9l-2-1V8l4-1 1-3h6z"/><path d="M9 4v3h6V4"/></svg>
+                    </button>
+                    <button class="sidebar-btn" id="btn-face">
+                        <!-- Icon: Face -->
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                    </button>
+                    <button class="sidebar-btn" id="btn-details">
+                        <!-- Icon: ID/Details -->
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2" ry="2"/><circle cx="9" cy="10" r="2"/><line x1="15" y1="9" x2="19" y2="9"/><line x1="15" y1="13" x2="19" y2="13"/><line x1="5" y1="16" x2="19" y2="16"/></svg>
+                    </button>
+                    <button class="sidebar-btn" id="btn-accessories">
+                        <!-- Icon: Accessories/Guitar -->
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="2"><path d="M9 18c-2 0-4-1-4-3s1-4 3-4 4 1 4 3-1 4-3 4z"/><path d="M11 15l8-8 2 2-8 8"/><circle cx="17" cy="7" r="1"/></svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <div class="customizer-box">
+                    <div class="tabs">
+                        <button class="tab-btn">Body Type</button>
+                        <button class="tab-btn active">Skin Color</button>
+                        <button class="tab-btn">Hair</button>
+                        <button class="tab-btn">Hair Color</button>
+                        <button class="tab-btn">Face Shape</button>
+                        <button class="tab-btn">Eyes</button>
+                    </div>
+                    <div class="grid">
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="bottom-btn undo-btn">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#b08b5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 10h10a5 5 0 0 1 5 5v2a5 5 0 0 1-5 5H8" />
+                    <polyline points="7 6 3 10 7 14" />
+                </svg>
+            </button>
+            <button class="bottom-btn redo-btn">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#b08b5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10H11a5 5 0 0 0-5 5v2a5 5 0 0 0 5 5h5" />
+                    <polyline points="17 6 21 10 17 14" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
