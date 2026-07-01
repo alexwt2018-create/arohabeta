@@ -1,0 +1,2688 @@
+<!-- BEGIN:nextjs-agent-rules -->
+# This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+<!-- END:nextjs-agent-rules -->
+
+@AGENTS.md
+
+# arohahauora
+
+
+const skinColors = [
+    { name: 'Default White', value: '#ffffff' },
+    { name: 'Warm Peach', value: '#ffd8be' },
+    { name: 'Soft Blush', value: '#ffcad4' },
+    { name: 'Sleek Cocoa', value: '#ddb892' },
+    { name: 'Deep Espresso', value: '#7f5539' },
+    { name: 'Lilac Dream', value: '#e8e5ff' },
+    { name: 'Mint Refresh', value: '#d8f3dc' },
+    { name: 'Sky Blue', value: '#e0f2fe' }
+];
+
+const bodyTypes = [
+    {
+        id: 'standard',
+        name: 'Standard',
+        paths: {
+            body: 'M 70 140 Q 100 130 130 140 L 130 200 Q 100 210 70 200 Z',
+            lArm: 'M 75 145 Q 40 155 25 175 Q 40 190 75 165',
+            rArm: 'M 125 145 Q 160 115 175 125 Q 160 155 125 165',
+            lLeg: 'M 70 200 L 60 240 Q 70 250 80 240 L 90 200',
+            rLeg: 'M 130 200 L 140 240 Q 130 250 120 240 L 110 200'
+        },
+        headTranslate: 'translate(0, 0)',
+        svg: '<ellipse cx="30" cy="30" rx="20" ry="18" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2"/>'
+    },
+    {
+        id: 'chubby',
+        name: 'Chubby',
+        paths: {
+            body: 'M 60 150 Q 100 140 140 150 L 140 200 Q 100 215 60 200 Z',
+            lArm: 'M 65 155 Q 30 165 15 185 Q 30 200 65 175',
+            rArm: 'M 135 155 Q 170 125 185 135 Q 170 165 135 175',
+            lLeg: 'M 70 200 L 60 240 Q 70 250 80 240 L 90 200',
+            rLeg: 'M 130 200 L 140 240 Q 130 250 120 240 L 110 200'
+        },
+        headTranslate: 'translate(0, 10)',
+        svg: '<ellipse cx="30" cy="30" rx="24" ry="14" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2"/>'
+    },
+    {
+        id: 'tall',
+        name: 'Tall',
+        paths: {
+            body: 'M 75 120 Q 100 110 125 120 L 125 200 Q 100 210 75 200 Z',
+            lArm: 'M 80 125 Q 45 135 30 155 Q 45 170 80 145',
+            rArm: 'M 120 125 Q 155 95 170 105 Q 155 135 120 145',
+            lLeg: 'M 75 200 L 65 240 Q 75 250 85 240 L 95 200',
+            rLeg: 'M 125 200 L 135 240 Q 125 250 115 240 L 105 200'
+        },
+        headTranslate: 'translate(0, -20)',
+        svg: '<ellipse cx="30" cy="30" rx="16" ry="24" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2"/>'
+    },
+    {
+        id: 'tiny',
+        name: 'Tiny',
+        paths: {
+            body: 'M 80 160 Q 100 155 120 160 L 120 200 Q 100 205 80 200 Z',
+            lArm: 'M 85 165 Q 60 170 50 185 Q 60 195 85 180',
+            rArm: 'M 115 165 Q 140 145 150 155 Q 140 175 115 170',
+            lLeg: 'M 80 200 L 75 230 Q 80 240 85 230 L 90 200',
+            rLeg: 'M 120 200 L 125 230 Q 120 240 115 230 L 110 200'
+        },
+        headTranslate: 'translate(0, 20)',
+        svg: '<ellipse cx="30" cy="30" rx="14" ry="12" fill="#cbd5e1" stroke="#94a3b8" stroke-width="2"/>'
+    }
+];
+
+const hairOptions = {
+    bald: {
+        name: 'Bald',
+        svg: ''
+    },
+    fluffy: {
+        name: 'Fluffy Bob',
+        svg: `<path d="M 40 75 Q 38 25 100 25 Q 162 25 160 75 Q 142 62 125 65 Q 100 52 80 62 Q 58 60 40 75 Z" fill="#94a3b8" stroke="#334155" stroke-width="2"/>`
+    },
+    pigtails: {
+        name: 'Pigtails',
+        svg: `<g fill="#94a3b8" stroke="#334155" stroke-width="2">
+                 <circle cx="33" cy="65" r="16"/>
+                 <circle cx="167" cy="65" r="16"/>
+                 <circle cx="38" cy="60" r="4" fill="#f43f5e" data-accessory="true"/>
+                 <circle cx="162" cy="60" r="4" fill="#f43f5e" data-accessory="true"/>
+                 <path d="M 40 75 Q 38 25 100 25 Q 162 25 160 75 Q 142 62 125 65 Q 100 52 80 62 Q 58 60 40 75 Z"/>
+               </g>`
+    },
+    spiky: {
+        name: 'Messy Spiky',
+        svg: `<path d="M 40 75 Q 35 25 60 30 Q 75 15 95 28 Q 115 12 135 30 Q 155 18 160 75 Q 140 60 120 62 Q 100 48 80 62 Q 60 60 40 75 Z" fill="#94a3b8" stroke="#334155" stroke-width="2"/>`
+    },
+    bun: {
+        name: 'Space Buns',
+        svg: `<g fill="#94a3b8" stroke="#334155" stroke-width="2">
+                 <circle cx="50" cy="28" r="16"/>
+                 <circle cx="150" cy="28" r="16"/>
+                 <path d="M 40 75 Q 38 25 100 25 Q 162 25 160 75 Q 142 62 125 65 Q 100 52 80 62 Q 58 60 40 75 Z"/>
+               </g>`
+    },
+    afro: {
+        name: 'Curly Afro',
+        svg: `<path d="M 45 75 Q 24 55 30 38 Q 40 12 70 18 Q 100 6 130 18 Q 160 12 170 38 Q 176 55 155 75 Q 140 68 130 70 Q 100 60 70 70 Q 60 68 45 75 Z" fill="#94a3b8" stroke="#334155" stroke-width="2"/>`
+    }
+};
+
+const hairColors = [
+    { name: 'Sleek Grey', value: '#94a3b8' },
+    { name: 'Dark Slate', value: '#1e293b' },
+    { name: 'Pastel Blonde', value: '#fef08a' },
+    { name: 'Ginger Auburn', value: '#d97706' },
+    { name: 'Soft Brown', value: '#854d0e' },
+    { name: 'Pastel Pink', value: '#f472b6' },
+    { name: 'Lavender Violet', value: '#c084fc' },
+    { name: 'Pastel Mint', value: '#a7f3d0' },
+    { name: 'Sky Blue', value: '#60a5fa' },
+    { name: 'Winter White', value: '#f8fafc' }
+];
+
+const eyesOptions = {
+    curved: {
+        name: 'Happy Arc',
+        svg: `<path d="M 70 85 Q 75 75 85 85" fill="none" stroke="#6b7280" stroke-width="6" stroke-linecap="round"/>
+              <path d="M 115 85 Q 125 75 130 85" fill="none" stroke="#6b7280" stroke-width="6" stroke-linecap="round"/>`
+    },
+    open: {
+        name: 'Excited',
+        svg: `<circle cx="78" cy="80" r="7.5" fill="#6b7280"/>
+              <circle cx="122" cy="80" r="7.5" fill="#6b7280"/>`
+    },
+    sleepy: {
+        name: 'Sleepy',
+        svg: `<line x1="70" y1="80" x2="85" y2="80" stroke="#6b7280" stroke-width="6" stroke-linecap="round"/>
+              <line x1="115" y1="80" x2="130" y2="80" stroke="#6b7280" stroke-width="6" stroke-linecap="round"/>`
+    },
+    wink: {
+        name: 'Wink',
+        svg: `<circle cx="78" cy="80" r="7.5" fill="#6b7280"/>
+              <path d="M 115 80 Q 122 87 130 80" fill="none" stroke="#6b7280" stroke-width="5" stroke-linecap="round"/>`
+    },
+    heart: {
+        name: 'Lovestruck',
+        svg: `<g fill="#f43f5e" stroke="#f43f5e" stroke-width="1">
+                <path d="M 77 71 C 74 65, 66 68, 69 76 L 77 84 L 85 76 C 88 68, 80 65, 77 71 Z" />
+                <path d="M 121 71 C 118 65, 110 68, 113 76 L 121 84 L 129 76 C 132 68, 124 65, 121 71 Z" />
+              </g>`
+    }
+};
+
+const smileOptions = {
+    standard: {
+        name: 'Happy',
+        svg: `<path d="M 90 110 Q 100 115 110 110" fill="none" stroke="#6b7280" stroke-width="4" stroke-linecap="round"/>`
+    },
+    laughing: {
+        name: 'Laughing',
+        svg: `<path d="M 90 106 Q 100 122 110 106 Z" fill="#6b7280"/>`
+    },
+    flat: {
+        name: 'Neutral',
+        svg: `<line x1="90" y1="110" x2="110" y2="110" stroke="#6b7280" stroke-width="4" stroke-linecap="round"/>`
+    },
+    surprise: {
+        name: 'Surprised',
+        svg: `<circle cx="100" cy="110" r="6" fill="none" stroke="#6b7280" stroke-width="4"/>`
+    },
+    cat: {
+        name: 'Cute Cat',
+        svg: `<path d="M 90 108 Q 95 113 100 108 Q 105 113 110 108" fill="none" stroke="#6b7280" stroke-width="3" stroke-linecap="round"/>`
+    }
+};
+
+const clothesOptions = {
+    'style 1': [
+        { category: 'Basics', options: [
+            { id: 'none', name: 'None', body: '', lArm: '', rArm: '' },
+            {
+                id: 'tshirt',
+                name: 'Basic Tee',
+                body: '<path d="M 70 140 Q 100 130 130 140 L 130 185 Q 100 195 70 185 Z"/><path d="M 85 140 Q 100 150 115 140" fill="none" stroke="#334155" stroke-width="1.5" opacity="0.3" data-decorative="true"/>',
+                lArm: '<path d="M 75 145 Q 48 153 40 162 Q 50 172 75 165"/>',
+                rArm: '<path d="M 125 145 Q 152 123 160 132 Q 150 142 125 165"/>'
+            },
+            {
+                id: 'tanktop',
+                name: 'Tank Top',
+                body: '<path d="M 80 140 Q 100 135 120 140 L 120 195 Q 100 205 80 195 Z"/><path d="M 80 140 Q 100 150 120 140" fill="none" stroke="#334155" stroke-width="2" opacity="0.2" data-decorative="true"/>',
+                lArm: '',
+                rArm: ''
+            },
+            {
+                id: 'croptop',
+                name: 'Crop Top',
+                body: '<path d="M 70 140 Q 100 130 130 140 L 130 170 Q 100 175 70 170 Z"/>',
+                lArm: '<path d="M 75 145 Q 60 150 55 155 Q 60 165 75 160"/>',
+                rArm: '<path d="M 125 145 Q 140 130 145 135 Q 140 145 125 150"/>'
+            }
+        ]},
+        { category: 'Cultural', options: [
+            {
+                id: 'pacifica',
+                name: 'Bula Shirt',
+                body: `<path d="M 68 140 Q 100 125 132 140 L 132 195 Q 100 205 68 195 Z"/>
+                       <path d="M 68 140 L 85 155 L 100 145 L 115 155 L 132 140" fill="none" stroke="#334155" stroke-width="1.5" opacity="0.4" data-decorative="true"/>
+                       <circle cx="85" cy="170" r="3" fill="white" opacity="0.5" data-decorative="true"/>
+                       <circle cx="115" cy="170" r="3" fill="white" opacity="0.5" data-decorative="true"/>
+                       <circle cx="100" cy="185" r="3" fill="white" opacity="0.5" data-decorative="true"/>`,
+                lArm: '<path d="M 75 145 Q 50 150 45 165 Q 55 175 75 168"/>',
+                rArm: '<path d="M 125 145 Q 150 120 155 135 Q 145 145 125 152"/>'
+            }
+        ]}
+    ],
+    'style 2': [
+        { category: 'Outdoor', options: [
+            {
+                id: 'hoodie',
+                name: 'Comfy Hoodie',
+                body: '<path d="M 65 140 Q 100 125 135 140 L 135 205 Q 100 215 65 205 Z"/><path d="M 85 140 Q 100 155 115 140" fill="none" stroke="#334155" stroke-width="2" opacity="0.3" data-decorative="true"/><path d="M 80 185 L 120 185 L 115 200 L 85 200 Z" fill="none" stroke="#334155" stroke-width="1" opacity="0.2" data-decorative="true"/>',
+                lArm: '<path d="M 75 145 Q 40 155 25 175 Q 40 190 75 165"/>',
+                rArm: '<path d="M 125 145 Q 160 115 175 125 Q 160 155 125 165"/>'
+            }
+        ]},
+        { category: 'Modern', options: [
+            {
+                id: 'vneck',
+                name: 'V-Neck',
+                body: '<path d="M 70 140 L 90 140 L 100 155 L 110 140 L 130 140 L 130 185 Q 100 195 70 185 Z"/><path d="M 100 155 L 100 185" fill="none" stroke="#334155" stroke-width="1" opacity="0.1" data-decorative="true"/>',
+                lArm: '<path d="M 75 145 Q 55 150 50 155 Q 55 165 75 160"/>',
+                rArm: '<path d="M 125 145 Q 145 130 150 135 Q 145 145 125 150"/>'
+            },
+            {
+                id: 'maori',
+                name: 'Koru Tee',
+                body: `<path d="M 70 140 Q 100 130 130 140 L 130 185 Q 100 195 70 185 Z"/>
+                       <path d="M 100 165 Q 110 165 110 175 Q 110 185 100 185 Q 90 185 90 175 Q 90 170 95 170" fill="none" stroke="white" stroke-width="2" opacity="0.4" data-decorative="true"/>
+                       <path d="M 85 140 Q 100 150 115 140" fill="none" stroke="#334155" stroke-width="1.5" opacity="0.3" data-decorative="true"/>`,
+                lArm: '<path d="M 75 145 Q 48 153 40 162 Q 50 172 75 165"/>',
+                rArm: '<path d="M 125 145 Q 152 123 160 132 Q 150 142 125 165"/>'
+            },
+            {
+                id: 'turtleneck',
+                name: 'Turtleneck',
+                body: '<path d="M 70 140 L 130 140 L 130 200 Q 100 210 70 200 Z"/><path d="M 85 125 L 115 125 L 115 140 L 85 140 Z" data-decorative="true"/>',
+                lArm: '<path d="M 75 145 Q 40 155 25 175 Q 40 190 75 165"/>',
+                rArm: '<path d="M 125 145 Q 160 115 175 125 Q 160 155 125 165"/>'
+            }
+        ]
+    }
+]};
+
+const clothesColors = [
+    { name: 'Sleek Grey', value: '#94a3b8' },
+    { name: 'Dark Slate', value: '#1e293b' },
+    { name: 'Navy Blue', value: '#1e3a8a' },
+    { name: 'Forest Green', value: '#14532d' },
+    { name: 'Wine Red', value: '#7f1d1d' },
+    { name: 'Pastel Blonde', value: '#fef08a' },
+    { name: 'Ginger Auburn', value: '#d97706' },
+    { name: 'Soft Brown', value: '#854d0e' },
+    { name: 'Pastel Pink', value: '#f472b6' },
+    { name: 'Lavender Violet', value: '#c084fc' },
+    { name: 'Pastel Mint', value: '#a7f3d0' },
+    { name: 'Sky Blue', value: '#60a5fa' },
+    { name: 'Winter White', value: '#f8fafc' }
+];
+
+function renderCharacter(state, options = {}) {
+    const {
+        root = document,
+        category = null,
+        isLoad = false,
+        animate = true,
+        characterWrapper = null
+    } = options;
+
+    // 1. Skin Color
+    const skinPaths = root.querySelectorAll('.skin-path');
+    skinPaths.forEach(path => {
+        path.style.fill = state.skinColor;
+    });
+
+    // 2. Body Type
+    const bodyTypeConfig = bodyTypes.find(t => t.id === state.bodyType);
+    if (bodyTypeConfig) {
+        const bodyPath = root.getElementById('body-path');
+        const lArmPath = root.getElementById('l-arm-path');
+        const rArmPath = root.getElementById('r-arm-path');
+        const lLegPath = root.getElementById('l-leg-path');
+        const rLegPath = root.getElementById('r-leg-path');
+        const headFaceGroup = root.getElementById('head-face-group');
+        const rArmGroup = root.getElementById('r-arm-group');
+
+        if (bodyPath) bodyPath.setAttribute('d', bodyTypeConfig.paths.body);
+        if (lArmPath) lArmPath.setAttribute('d', bodyTypeConfig.paths.lArm);
+        if (rArmPath) rArmPath.setAttribute('d', bodyTypeConfig.paths.rArm);
+        if (lLegPath) lLegPath.setAttribute('d', bodyTypeConfig.paths.lLeg);
+        if (rLegPath) rLegPath.setAttribute('d', bodyTypeConfig.paths.rLeg);
+
+        if (headFaceGroup) headFaceGroup.setAttribute('transform', bodyTypeConfig.headTranslate);
+
+        if (rArmGroup) {
+            if (bodyTypeConfig.id === 'standard') rArmGroup.setAttribute('transform-origin', '125 155');
+            else if (bodyTypeConfig.id === 'chubby') rArmGroup.setAttribute('transform-origin', '135 155');
+            else if (bodyTypeConfig.id === 'tall') rArmGroup.setAttribute('transform-origin', '120 125');
+            else if (bodyTypeConfig.id === 'tiny') rArmGroup.setAttribute('transform-origin', '115 165');
+        }
+    }
+
+    // 3. Hair
+    const hairContainer = root.getElementById('hair-container');
+    if (hairContainer && hairOptions[state.hair]) {
+        hairContainer.innerHTML = hairOptions[state.hair].svg;
+
+        const hairElements = hairContainer.querySelectorAll('path, circle, ellipse, rect, polygon');
+        hairElements.forEach(el => {
+            if (el.getAttribute('data-accessory') !== 'true') {
+                el.style.fill = state.hairColor;
+            }
+        });
+    }
+
+    // 4. Eyes
+    const eyesContainer = root.getElementById('eyes-container');
+    if (eyesContainer && eyesOptions[state.eyes]) {
+        eyesContainer.innerHTML = eyesOptions[state.eyes].svg;
+    }
+
+    // 5. Smile
+    const smileContainer = root.getElementById('smile-container');
+    if (smileContainer && smileOptions[state.smile]) {
+        smileContainer.innerHTML = smileOptions[state.smile].svg;
+    }
+
+    // 6. Clothes
+    const bodyClothes = root.getElementById('clothes-body-container');
+    const lArmClothes = root.getElementById('clothes-l-arm-container');
+    const rArmClothes = root.getElementById('clothes-r-arm-container');
+    const lLegClothes = root.getElementById('clothes-l-leg-container');
+    const rLegClothes = root.getElementById('clothes-r-leg-container');
+
+    if (bodyClothes && lArmClothes && rArmClothes) {
+        bodyClothes.innerHTML = '';
+        lArmClothes.innerHTML = '';
+        rArmClothes.innerHTML = '';
+        if (lLegClothes) lLegClothes.innerHTML = '';
+        if (rLegClothes) rLegClothes.innerHTML = '';
+
+        if (state.clothes !== 'none') {
+            let selectedClothes = null;
+            Object.values(clothesOptions).forEach(styleList => {
+                const found = styleList.find(group => group.options.some(c => c.id === state.clothes));
+                if (found) {
+                    selectedClothes = found.options.find(c => c.id === state.clothes);
+                }
+            });
+
+            if (selectedClothes) {
+                bodyClothes.innerHTML = selectedClothes.body;
+                lArmClothes.innerHTML = selectedClothes.lArm;
+                rArmClothes.innerHTML = selectedClothes.rArm;
+
+                [bodyClothes, lArmClothes, rArmClothes, lLegClothes, rLegClothes].forEach(container => {
+                    if (container) {
+                        container.querySelectorAll('path, circle').forEach(el => {
+                            if (el.getAttribute('data-decorative') !== 'true') {
+                                el.style.fill = state.clothesColor;
+                                el.style.stroke = '#334155';
+                            }
+                        });
+                    }
+                });
+            }
+        }
+    }
+
+    // Animations (Only if enabled and characterWrapper provided)
+    if (animate && characterWrapper && !isLoad) {
+        characterWrapper.classList.remove('bounce-animation');
+        void characterWrapper.offsetWidth;
+        characterWrapper.classList.add('bounce-animation');
+
+        if (category) {
+            const reactionMap = {
+                'skin color': 'shimmer-animation',
+                'hair color': 'shimmer-animation',
+                'body type': 'jump-animation',
+                'hair': 'wiggle-animation',
+                'face shape': 'wiggle-animation',
+                'eyes': 'wiggle-animation'
+            };
+
+            const animationClass = reactionMap[category];
+            if (animationClass) {
+                characterWrapper.classList.remove('shimmer-animation', 'wiggle-animation', 'jump-animation');
+                void characterWrapper.offsetWidth;
+                characterWrapper.classList.add(animationClass);
+            }
+        }
+    }
+}
+
+.hub-mode {
+    background: linear-gradient(to bottom, #a0d8ef 0%, #a0d8ef 70%, #d4a373 70%, #d4a373 100%);
+    display: flex;
+    flex-direction: column;
+}
+
+.hub-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 20px;
+    z-index: 10;
+}
+
+.header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.date-badge {
+    background: white;
+    padding: 5px 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    width: fit-content;
+}
+
+.urgent-bubble {
+    background: white;
+    padding: 10px 20px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    position: relative;
+    font-size: 14px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.urgent-bubble::before {
+    content: '';
+    position: absolute;
+    left: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    border-right: 10px solid white;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+}
+
+.header-right {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.menu-toggle {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #3182ce;
+    cursor: pointer;
+}
+
+.profile-card {
+    background: white;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    display: flex;
+    gap: 5px;
+}
+
+.hub-main {
+    flex: 1;
+    display: flex;
+    padding: 0 20px;
+}
+
+.left-sidebar {
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.planner-shortcut {
+    background: white;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 12px;
+}
+
+.planner-preview {
+    height: 150px;
+    background: #f0fff4;
+    border: 1px solid #c6f6d5;
+    margin-top: 5px;
+}
+
+.room-area {
+    flex: 1;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    padding-bottom: 50px;
+}
+
+.avatar-speech-bubble {
+    background: white;
+    padding: 15px 25px;
+    border-radius: 20px;
+    border: 2px solid #3182ce;
+    margin-bottom: 20px;
+    position: relative;
+    font-weight: 600;
+}
+
+.avatar-speech-bubble .bubble-tail {
+    border-top-color: #3182ce;
+}
+
+.start-session-btn {
+    background-color: #f6ad55;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 0 #dd6b20;
+    transition: transform 0.1s;
+}
+
+.start-session-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #dd6b20;
+}
+
+.right-sidebar {
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: center;
+}
+
+.hub-nav-btn {
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    text-align: left;
+}
+
+.hub-nav-btn.secondary {
+    background-color: #4299e1;
+}
+
+.hub-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.panel-content.empty {
+    height: 150px;
+    background-color: #ebf8ff;
+    border-radius: 15px;
+}
+
+.hub-footer {
+    padding: 10px 20px;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+}
+
+.tool-btn {
+    background-color: #fca5a5;
+    border: 1px solid #f87171;
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+#hub-avatar {
+    width: 250px;
+    height: 300px;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Study Buddy Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container hub-mode">
+        <header class="hub-header">
+            <div class="header-left">
+                <div class="date-badge">
+                    <span class="date-icon">...</span>
+                    <span id="current-date">3/18 Wednesday</span>
+                </div>
+                <div class="task-bubble-container">
+                    <div class="urgent-bubble">urgent - meeting at 9am</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="menu-toggle">☰</button>
+                <div class="profile-card">
+                    <div class="profile-icon">Profile</div>
+                    <div class="profile-grad">Grad</div>
+                </div>
+            </div>
+        </header>
+
+        <main class="hub-main">
+            <aside class="left-sidebar">
+                <div class="planner-shortcut">
+                    <p>click to show the whole planner</p>
+                    <div class="planner-preview"></div>
+                </div>
+            </aside>
+
+            <div class="room-area">
+                <div class="avatar-speech-bubble">
+                    <span id="speech-text">Today is a new chance! A new you!</span>
+                    <div class="bubble-tail"></div>
+                </div>
+
+                <div class="character-wrapper" id="hub-avatar">
+                    <svg viewBox="0 0 200 250" width="100%" height="100%">
+                        <path id="l-leg-path" class="skin-path" d="M 70 200 L 60 240 Q 70 250 80 240 L 90 200" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                        <g id="clothes-l-leg-container"></g>
+                        <path id="r-leg-path" class="skin-path" d="M 130 200 L 140 240 Q 130 250 120 240 L 110 200" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                        <g id="clothes-r-leg-container"></g>
+                        <g class="character-upper-body" transform-origin="100 200">
+                            <path id="l-arm-path" class="skin-path" d="M 75 145 Q 40 155 25 175 Q 40 190 75 165" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                            <g id="clothes-l-arm-container"></g>
+                            <g id="r-arm-group" class="waving-arm" transform-origin="125 155">
+                                <path id="r-arm-path" class="skin-path" d="M 125 145 Q 160 115 175 125 Q 160 155 125 165" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                                <g id="clothes-r-arm-container"></g>
+                            </g>
+                            <path id="body-path" class="skin-path" d="M 70 140 Q 100 130 130 140 L 130 200 Q 100 210 70 200 Z" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                            <g id="clothes-body-container"></g>
+                            <g id="head-face-group">
+                                <ellipse class="skin-path" cx="100" cy="90" rx="60" ry="50" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                                <g id="hair-container"></g>
+                                <g id="eyes-container"></g>
+                                <g id="blush-container">
+                                    <ellipse cx="65" cy="100" rx="8" ry="4" fill="#fca5a5" transform="rotate(-15 65 100)" opacity="0.8"/>
+                                    <ellipse cx="135" cy="100" rx="8" ry="4" fill="#fca5a5" transform="rotate(15 135 100)" opacity="0.8"/>
+                                </g>
+                                <g id="smile-container"></g>
+                            </g>
+                        </g>
+                    </svg>
+                </div>
+                <div class="shadow"></div>
+
+                <button class="start-session-btn">Start a session</button>
+            </div>
+
+            <aside class="right-sidebar">
+                <button class="hub-nav-btn">Task categorization</button>
+                <div class="hub-panel">
+                    <button class="hub-nav-btn secondary">Self-care spaces</button>
+                    <div class="panel-content empty"></div>
+                </div>
+            </aside>
+        </main>
+
+        <footer class="hub-footer">
+            <div class="toolbar">
+                <button class="tool-btn"><span class="icon">Shop</span></button>
+                <button class="tool-btn"><span class="icon">Closet</span></button>
+                <button class="tool-btn"><span class="icon">Scale</span></button>
+            </div>
+        </footer>
+    </div>
+
+    <script src="character-data.js"></script>
+    <script src="character-renderer.js"></script>
+    <script src="home.js"></script>
+</body>
+</html>
+
+document.addEventListener('DOMContentLoaded', () => {
+    const state = JSON.parse(localStorage.getItem('characterState'));
+
+    if (state) {
+        const hubAvatar = document.getElementById('hub-avatar');
+        renderCharacter(state, {
+            root: document,
+            isLoad: true,
+            characterWrapper: hubAvatar,
+            animate: true
+        });
+
+        // Add a bit of life to the hub
+        const speechText = document.getElementById('speech-text');
+        const phrases = [
+            "Today is a new chance! A new you!",
+            "Ready to hit the books?",
+            "You're doing great!",
+            "Let's focus together!",
+            "Have you hydrated today?"
+        ];
+
+        let phraseIndex = 0;
+        setInterval(() => {
+            phraseIndex = (phraseIndex + 1) % phrases.length;
+            speechText.style.opacity = 0;
+            setTimeout(() => {
+                speechText.textContent = phrases[phraseIndex];
+                speechText.style.opacity = 1;
+            }, 500);
+        }, 10000);
+    } else {
+        // Redirect back if no state found
+        window.location.href = 'index.html';
+    }
+
+    // Set dynamic date (simplified)
+    const dateDisplay = document.getElementById('current-date');
+    const now = new Date();
+    const options = { month: 'numeric', day: 'numeric', weekday: 'long' };
+    dateDisplay.textContent = now.toLocaleDateString('en-US', options).replace(',', '');
+});
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Character Customizer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <div class="browser-header">
+            <div class="browser-dots">
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+                <div class="dot"></div>
+            </div>
+        </div>
+        <div class="main-content" id="customizer-screen">
+            <div class="left-panel">
+                <h1 class="main-title">Firstly, bring your study buddy to life!</h1>
+                
+                <div class="character-container">
+                    <div class="text-bubble">
+                        <span>Hello! My name is</span> <input type="text" class="name-input" placeholder="___">
+                        <div class="bubble-tail"></div>
+                    </div>
+                    <div class="character-wrapper">
+                        <svg viewBox="0 0 200 250" width="100%" height="100%">
+                             <!-- Legs -->
+                            <!-- Left Leg -->
+                            <path id="l-leg-path" class="skin-path" d="M 70 200 L 60 240 Q 70 250 80 240 L 90 200" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                            <g id="clothes-l-leg-container"></g>
+                            
+                            <!-- Right Leg -->
+                            <path id="r-leg-path" class="skin-path" d="M 130 200 L 140 240 Q 130 250 120 240 L 110 200" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                            <g id="clothes-r-leg-container"></g>
+
+                            <!-- Upper Body Group -->
+                            <g class="character-upper-body" transform-origin="100 200">
+                                <!-- Left Arm -->
+                                <path id="l-arm-path" class="skin-path" d="M 75 145 Q 40 155 25 175 Q 40 190 75 165" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                                <g id="clothes-l-arm-container"></g>
+                                
+                                <!-- Right Arm (Waving) -->
+                                <g id="r-arm-group" class="waving-arm" transform-origin="125 155">
+                                    <path id="r-arm-path" class="skin-path" d="M 125 145 Q 160 115 175 125 Q 160 155 125 165" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                                    <g id="clothes-r-arm-container"></g>
+                                </g>
+
+                                <!-- Body -->
+                                <path id="body-path" class="skin-path" d="M 70 140 Q 100 130 130 140 L 130 200 Q 100 210 70 200 Z" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+                                <g id="clothes-body-container"></g>
+
+                                <!-- Head and Face Group -->
+                                <g id="head-face-group">
+                                    <!-- Head -->
+                                    <ellipse class="skin-path" cx="100" cy="90" rx="60" ry="50" fill="white" stroke="#e5e7eb" stroke-width="2"/>
+
+                                    <!-- Hair -->
+                                    <g id="hair-container"></g>
+
+                                    <!-- Eyes -->
+                                    <g id="eyes-container">
+                                        <path d="M 70 85 Q 75 75 85 85" fill="none" stroke="#6b7280" stroke-width="6" stroke-linecap="round"/>
+                                        <path d="M 115 85 Q 125 75 130 85" fill="none" stroke="#6b7280" stroke-width="6" stroke-linecap="round"/>
+                                    </g>
+
+                                    <!-- Blush -->
+                                    <g id="blush-container">
+                                        <ellipse cx="65" cy="100" rx="8" ry="4" fill="#fca5a5" transform="rotate(-15 65 100)" opacity="0.8"/>
+                                        <ellipse cx="135" cy="100" rx="8" ry="4" fill="#fca5a5" transform="rotate(15 135 100)" opacity="0.8"/>
+                                    </g>
+
+                                    <!-- Smile -->
+                                    <g id="smile-container">
+                                        <path d="M 90 110 Q 100 115 110 110" fill="none" stroke="#6b7280" stroke-width="4" stroke-linecap="round"/>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="shadow"></div>
+                </div>
+                
+            </div>
+            
+            <div class="middle-panel">
+                <div class="sidebar-buttons">
+                    <button class="sidebar-btn active" id="btn-body">
+                        <!-- Icon: Body -->
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="2"><path d="M12 4a2 2 0 100-4 2 2 0 000 4z"/><path d="M9 10v8h2v5h2v-5h2v-8c0-1.5-1-3-2.5-3h-3C9.5 7 8.5 8.5 8.5 10v3H7v-3c0-2.5 1.5-4.5 3.5-4.5h3c2 0 3.5 2 3.5 4.5v3h-1.5v-3c0-1.5-.5-3-1.5-3h-1c-.5 0-1 .5-1 1v7H11v-7c0-.5-.5-1-1-1h-1z"/></svg>
+                    </button>
+                    <button class="sidebar-btn" id="btn-clothes">
+                        <!-- Icon: Clothes -->
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="2"><path d="M15 4l1 3 4 1v4l-2 1v9H6v-9l-2-1V8l4-1 1-3h6z"/><path d="M9 4v3h6V4"/></svg>
+                    </button>
+                    <button class="sidebar-btn" id="btn-face">
+                        <!-- Icon: Face -->
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                    </button>
+                    <button class="sidebar-btn" id="btn-details">
+                        <!-- Icon: ID/Details -->
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2" ry="2"/><circle cx="9" cy="10" r="2"/><line x1="15" y1="9" x2="19" y2="9"/><line x1="15" y1="13" x2="19" y2="13"/><line x1="5" y1="16" x2="19" y2="16"/></svg>
+                    </button>
+                    <button class="sidebar-btn" id="btn-accessories">
+                        <!-- Icon: Accessories/Guitar -->
+                        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="white" stroke-width="2"><path d="M9 18c-2 0-4-1-4-3s1-4 3-4 4 1 4 3-1 4-3 4z"/><path d="M11 15l8-8 2 2-8 8"/><circle cx="17" cy="7" r="1"/></svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <div class="customizer-box">
+                    <div class="tabs">
+                        <button class="tab-btn">Body Type</button>
+                        <button class="tab-btn active">Skin Color</button>
+                        <button class="tab-btn">Hair</button>
+                        <button class="tab-btn">Hair Color</button>
+                        <button class="tab-btn">Face Shape</button>
+                        <button class="tab-btn">Eyes</button>
+                    </div>
+                    <div class="grid">
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                        <div class="grid-item"></div>
+                    </div>
+                    <div class="nav-controls">
+                        <button class="nav-btn prev-step" style="visibility: hidden;">Back</button>
+                        <button class="nav-btn next-step">Next</button>
+                        <button class="finish-btn" style="display: none;">Finish</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="bottom-btn undo-btn">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#b08b5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 10h10a5 5 0 0 1 5 5v2a5 5 0 0 1-5 5H8" />
+                    <polyline points="7 6 3 10 7 14" />
+                </svg>
+                <span class="btn-label">undo</span>
+            </button>
+            <button class="bottom-btn redo-btn">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#b08b5e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 10H11a5 5 0 0 0-5 5v2a5 5 0 0 0 5 5h5" />
+                    <polyline points="17 6 21 10 17 14" />
+                </svg>
+                <span class="btn-label">redo</span>
+            </button>
+        </div>
+
+        <div class="main-content" id="home-screen" style="display: none;">
+            <div class="home-container">
+                <h1 class="welcome-title">Welcome Home, <span id="home-name-display">Buddy</span>!</h1>
+                <div class="home-layout">
+                    <div class="home-character-display">
+                        <!-- Character will be cloned or re-rendered here -->
+                    </div>
+                    <div class="home-info">
+                        <p class="home-status">Your study buddy is ready to go!</p>
+                        <div class="home-actions">
+                            <button class="home-btn primary">Start Studying</button>
+                            <button class="home-btn secondary" id="edit-back-btn">Back to Edit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="character-data.js"></script>
+    <script src="character-renderer.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mii Avatar Animation Demo</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <script src="sprite_gen.js"></script>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f0f4f8;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            background-color: #3182ce;
+            color: white;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #2b6cb0;
+        }
+        button.active {
+            background-color: #ca8a04;
+        }
+        h1 { color: #1765a3; margin-bottom: 5px; }
+        p { color: #4a5568; margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useRef, useEffect } = React;
+
+        const MiiAvatar = ({ spriteSheetUrl, animationState = 'idle' }) => {
+            const mountRef = useRef(null);
+
+            useEffect(() => {
+                const width = 400;
+                const height = 400;
+
+                // 1. Setup Scene
+                const scene = new THREE.Scene();
+                const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0.1, 10);
+                camera.position.z = 1;
+
+                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+                renderer.setSize(width, height);
+                mountRef.current.appendChild(renderer.domElement);
+
+                // 2. Load Sprite Sheet
+                const loader = new THREE.TextureLoader();
+                const texture = loader.load(spriteSheetUrl);
+
+                const cols = 4;
+                const rows = 4;
+                texture.repeat.set(1 / cols, 1 / rows);
+                texture.magFilter = THREE.NearestFilter;
+
+                const material = new THREE.MeshBasicMaterial({ map: texture, transparent: true });
+                const geometry = new THREE.PlaneGeometry(1.6, 1.6);
+                const sprite = new THREE.Mesh(geometry, material);
+                scene.add(sprite);
+
+                // 3. Animation Logic
+                let frame = 0;
+                let timer = 0;
+                const frameDuration = 0.15;
+
+                const animate = (time) => {
+                    const delta = 0.016;
+                    timer += delta;
+
+                    if (timer >= frameDuration) {
+                        timer = 0;
+                        frame = (frame + 1) % cols;
+                        texture.offset.x = frame / cols;
+                    }
+
+                    switch (animationState) {
+                        case 'talking':
+                            texture.offset.y = (rows - 2) / rows;
+                            sprite.position.y = 0;
+                            break;
+                        case 'happy':
+                            texture.offset.y = (rows - 3) / rows;
+                            sprite.position.y = Math.abs(Math.sin(time * 0.008)) * 0.2;
+                            break;
+                        case 'idle':
+                        default:
+                            texture.offset.y = (rows - 1) / rows;
+                            sprite.position.y = 0;
+                            break;
+                    }
+
+                    renderer.render(scene, camera);
+                    requestAnimationFrame(animate);
+                };
+
+                const animationId = requestAnimationFrame(animate);
+
+                return () => {
+                    cancelAnimationFrame(animationId);
+                    if (mountRef.current) {
+                        mountRef.current.removeChild(renderer.domElement);
+                    }
+                    geometry.dispose();
+                    material.dispose();
+                    texture.dispose();
+                };
+            }, [spriteSheetUrl, animationState]);
+
+            return (
+                <div
+                    ref={mountRef}
+                    style={{
+                        width: '400px',
+                        height: '400px',
+                        background: 'radial-gradient(circle, #fff 0%, #e0f2fe 100%)',
+                        borderRadius: '50%',
+                        boxShadow: '0 10px 25px rgba(0,0,0,0.1)',
+                        overflow: 'hidden'
+                    }}
+                />
+            );
+        };
+
+        const App = () => {
+            const [state, setState] = useState('idle');
+            const [spriteUrl, setSpriteUrl] = useState('');
+
+            useEffect(() => {
+                setSpriteUrl(window.generateMiiSpriteSheet());
+            }, []);
+
+            if (!spriteUrl) return <div>Loading Sprite Sheet...</div>;
+
+            return (
+                <>
+                    <h1>Mii Animator</h1>
+                    <p>Testing React + Three.js Sprite Animations</p>
+                    <MiiAvatar spriteSheetUrl={spriteUrl} animationState={state} />
+                    <div className="controls">
+                        {['idle', 'talking', 'happy'].map(s => (
+                            <button
+                                key={s}
+                                className={state === s ? 'active' : ''}
+                                onClick={() => setState(s)}
+                            >
+                                {s.charAt(0).toUpperCase() + s.slice(1)}
+                            </button>
+                        ))}
+                    </div>
+                </>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
+
+{
+  "name": "alex-school-project",
+  "version": "0.0.0",
+  "lockfileVersion": 3,
+  "requires": true,
+  "packages": {
+    "": {
+      "name": "alex-school-project",
+      "version": "0.0.0",
+      "dependencies": {
+        "gsap": "^3.14.2",
+        "lenis": "^1.3.20"
+      },
+      "devDependencies": {
+        "vite": "^8.0.1"
+      }
+    },
+    "node_modules/@emnapi/core": {
+      "version": "1.9.1",
+      "resolved": "https://registry.npmjs.org/@emnapi/core/-/core-1.9.1.tgz",
+      "integrity": "sha512-mukuNALVsoix/w1BJwFzwXBN/dHeejQtuVzcDsfOEsdpCumXb/E9j8w11h5S54tT1xhifGfbbSm/ICrObRb3KA==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "@emnapi/wasi-threads": "1.2.0",
+        "tslib": "^2.4.0"
+      }
+    },
+    "node_modules/@emnapi/runtime": {
+      "version": "1.9.1",
+      "resolved": "https://registry.npmjs.org/@emnapi/runtime/-/runtime-1.9.1.tgz",
+      "integrity": "sha512-VYi5+ZVLhpgK4hQ0TAjiQiZ6ol0oe4mBx7mVv7IflsiEp0OWoVsp/+f9Vc1hOhE0TtkORVrI1GvzyreqpgWtkA==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "tslib": "^2.4.0"
+      }
+    },
+    "node_modules/@emnapi/wasi-threads": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/@emnapi/wasi-threads/-/wasi-threads-1.2.0.tgz",
+      "integrity": "sha512-N10dEJNSsUx41Z6pZsXU8FjPjpBEplgH24sfkmITrBED1/U2Esum9F3lfLrMjKHHjmi557zQn7kR9R+XWXu5Rg==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "tslib": "^2.4.0"
+      }
+    },
+    "node_modules/@napi-rs/wasm-runtime": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/@napi-rs/wasm-runtime/-/wasm-runtime-1.1.1.tgz",
+      "integrity": "sha512-p64ah1M1ld8xjWv3qbvFwHiFVWrq1yFvV4f7w+mzaqiR4IlSgkqhcRdHwsGgomwzBH51sRY4NEowLxnaBjcW/A==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "@emnapi/core": "^1.7.1",
+        "@emnapi/runtime": "^1.7.1",
+        "@tybys/wasm-util": "^0.10.1"
+      },
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/Brooooooklyn"
+      }
+    },
+    "node_modules/@oxc-project/types": {
+      "version": "0.122.0",
+      "resolved": "https://registry.npmjs.org/@oxc-project/types/-/types-0.122.0.tgz",
+      "integrity": "sha512-oLAl5kBpV4w69UtFZ9xqcmTi+GENWOcPF7FCrczTiBbmC0ibXxCwyvZGbO39rCVEuLGAZM84DH0pUIyyv/YJzA==",
+      "dev": true,
+      "license": "MIT",
+      "funding": {
+        "url": "https://github.com/sponsors/Boshen"
+      }
+    },
+    "node_modules/@rolldown/binding-android-arm64": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-android-arm64/-/binding-android-arm64-1.0.0-rc.11.tgz",
+      "integrity": "sha512-SJ+/g+xNnOh6NqYxD0V3uVN4W3VfnrGsC9/hoglicgTNfABFG9JjISvkkU0dNY84MNHLWyOgxP9v9Y9pX4S7+A==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "android"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/binding-darwin-arm64": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-darwin-arm64/-/binding-darwin-arm64-1.0.0-rc.11.tgz",
+      "integrity": "sha512-7WQgR8SfOPwmDZGFkThUvsmd/nwAWv91oCO4I5LS7RKrssPZmOt7jONN0cW17ydGC1n/+puol1IpoieKqQidmg==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/binding-darwin-x64": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-darwin-x64/-/binding-darwin-x64-1.0.0-rc.11.tgz",
+      "integrity": "sha512-39Ks6UvIHq4rEogIfQBoBRusj0Q0nPVWIvqmwBLaT6aqQGIakHdESBVOPRRLacy4WwUPIx4ZKzfZ9PMW+IeyUQ==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/binding-freebsd-x64": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-freebsd-x64/-/binding-freebsd-x64-1.0.0-rc.11.tgz",
+      "integrity": "sha512-jfsm0ZHfhiqrvWjJAmzsqiIFPz5e7mAoCOPBNTcNgkiid/LaFKiq92+0ojH+nmJmKYkre4t71BWXUZDNp7vsag==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "freebsd"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/binding-linux-arm-gnueabihf": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-arm-gnueabihf/-/binding-linux-arm-gnueabihf-1.0.0-rc.11.tgz",
+      "integrity": "sha512-zjQaUtSyq1nVe3nxmlSCuR96T1LPlpvmJ0SZy0WJFEsV4kFbXcq2u68L4E6O0XeFj4aex9bEauqjW8UQBeAvfQ==",
+      "cpu": [
+        "arm"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/binding-linux-arm64-gnu": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-arm64-gnu/-/binding-linux-arm64-gnu-1.0.0-rc.11.tgz",
+      "integrity": "sha512-WMW1yE6IOnehTcFE9eipFkm3XN63zypWlrJQ2iF7NrQ9b2LDRjumFoOGJE8RJJTJCTBAdmLMnJ8uVitACUUo1Q==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/binding-linux-arm64-musl": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-arm64-musl/-/binding-linux-arm64-musl-1.0.0-rc.11.tgz",
+      "integrity": "sha512-jfndI9tsfm4APzjNt6QdBkYwre5lRPUgHeDHoI7ydKUuJvz3lZeCfMsI56BZj+7BYqiKsJm7cfd/6KYV7ubrBg==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/binding-linux-ppc64-gnu": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-ppc64-gnu/-/binding-linux-ppc64-gnu-1.0.0-rc.11.tgz",
+      "integrity": "sha512-ZlFgw46NOAGMgcdvdYwAGu2Q+SLFA9LzbJLW+iyMOJyhj5wk6P3KEE9Gct4xWwSzFoPI7JCdYmYMzVtlgQ+zfw==",
+      "cpu": [
+        "ppc64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/binding-linux-s390x-gnu": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-s390x-gnu/-/binding-linux-s390x-gnu-1.0.0-rc.11.tgz",
+      "integrity": "sha512-hIOYmuT6ofM4K04XAZd3OzMySEO4K0/nc9+jmNcxNAxRi6c5UWpqfw3KMFV4MVFWL+jQsSh+bGw2VqmaPMTLyw==",
+      "cpu": [
+        "s390x"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/binding-linux-x64-gnu": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-x64-gnu/-/binding-linux-x64-gnu-1.0.0-rc.11.tgz",
+      "integrity": "sha512-qXBQQO9OvkjjQPLdUVr7Nr2t3QTZI7s4KZtfw7HzBgjbmAPSFwSv4rmET9lLSgq3rH/ndA3ngv3Qb8l2njoPNA==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/binding-linux-x64-musl": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-linux-x64-musl/-/binding-linux-x64-musl-1.0.0-rc.11.tgz",
+      "integrity": "sha512-/tpFfoSTzUkH9LPY+cYbqZBDyyX62w5fICq9qzsHLL8uTI6BHip3Q9Uzft0wylk/i8OOwKik8OxW+QAhDmzwmg==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/binding-openharmony-arm64": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-openharmony-arm64/-/binding-openharmony-arm64-1.0.0-rc.11.tgz",
+      "integrity": "sha512-mcp3Rio2w72IvdZG0oQ4bM2c2oumtwHfUfKncUM6zGgz0KgPz4YmDPQfnXEiY5t3+KD/i8HG2rOB/LxdmieK2g==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "openharmony"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/binding-wasm32-wasi": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-wasm32-wasi/-/binding-wasm32-wasi-1.0.0-rc.11.tgz",
+      "integrity": "sha512-LXk5Hii1Ph9asuGRjBuz8TUxdc1lWzB7nyfdoRgI0WGPZKmCxvlKk8KfYysqtr4MfGElu/f/pEQRh8fcEgkrWw==",
+      "cpu": [
+        "wasm32"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "@napi-rs/wasm-runtime": "^1.1.1"
+      },
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
+    "node_modules/@rolldown/binding-win32-arm64-msvc": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-win32-arm64-msvc/-/binding-win32-arm64-msvc-1.0.0-rc.11.tgz",
+      "integrity": "sha512-dDwf5otnx0XgRY1yqxOC4ITizcdzS/8cQ3goOWv3jFAo4F+xQYni+hnMuO6+LssHHdJW7+OCVL3CoU4ycnh35Q==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/binding-win32-x64-msvc": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/binding-win32-x64-msvc/-/binding-win32-x64-msvc-1.0.0-rc.11.tgz",
+      "integrity": "sha512-LN4/skhSggybX71ews7dAj6r2geaMJfm3kMbK2KhFMg9B10AZXnKoLCVVgzhMHL0S+aKtr4p8QbAW8k+w95bAA==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      }
+    },
+    "node_modules/@rolldown/pluginutils": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/@rolldown/pluginutils/-/pluginutils-1.0.0-rc.11.tgz",
+      "integrity": "sha512-xQO9vbwBecJRv9EUcQ/y0dzSTJgA7Q6UVN7xp6B81+tBGSLVAK03yJ9NkJaUA7JFD91kbjxRSC/mDnmvXzbHoQ==",
+      "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/@tybys/wasm-util": {
+      "version": "0.10.1",
+      "resolved": "https://registry.npmjs.org/@tybys/wasm-util/-/wasm-util-0.10.1.tgz",
+      "integrity": "sha512-9tTaPJLSiejZKx+Bmog4uSubteqTvFrVrURwkmHixBo0G4seD0zUxp98E1DzUBJxLQ3NPwXrGKDiVjwx/DpPsg==",
+      "dev": true,
+      "license": "MIT",
+      "optional": true,
+      "dependencies": {
+        "tslib": "^2.4.0"
+      }
+    },
+    "node_modules/detect-libc": {
+      "version": "2.1.2",
+      "resolved": "https://registry.npmjs.org/detect-libc/-/detect-libc-2.1.2.tgz",
+      "integrity": "sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==",
+      "dev": true,
+      "license": "Apache-2.0",
+      "engines": {
+        "node": ">=8"
+      }
+    },
+    "node_modules/fdir": {
+      "version": "6.5.0",
+      "resolved": "https://registry.npmjs.org/fdir/-/fdir-6.5.0.tgz",
+      "integrity": "sha512-tIbYtZbucOs0BRGqPJkshJUYdL+SDH7dVM8gjy+ERp3WAUjLEFJE+02kanyHtwjWOnwrKYBiwAmM0p4kLJAnXg==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=12.0.0"
+      },
+      "peerDependencies": {
+        "picomatch": "^3 || ^4"
+      },
+      "peerDependenciesMeta": {
+        "picomatch": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/fsevents": {
+      "version": "2.3.3",
+      "resolved": "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz",
+      "integrity": "sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==",
+      "dev": true,
+      "hasInstallScript": true,
+      "license": "MIT",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": "^8.16.0 || ^10.6.0 || >=11.0.0"
+      }
+    },
+    "node_modules/gsap": {
+      "version": "3.14.2",
+      "resolved": "https://registry.npmjs.org/gsap/-/gsap-3.14.2.tgz",
+      "integrity": "sha512-P8/mMxVLU7o4+55+1TCnQrPmgjPKnwkzkXOK1asnR9Jg2lna4tEY5qBJjMmAaOBDDZWtlRjBXjLa0w53G/uBLA==",
+      "license": "Standard 'no charge' license: https://gsap.com/standard-license."
+    },
+    "node_modules/lenis": {
+      "version": "1.3.20",
+      "resolved": "https://registry.npmjs.org/lenis/-/lenis-1.3.20.tgz",
+      "integrity": "sha512-sN5+fCQjovD/KZcClwmVLqLIufiHM9w9I/wXPHKUuRLtRa370qdHI2r2WIetSBS/9Sn5yTAGdhxb7W9AtD9x8g==",
+      "license": "MIT",
+      "workspaces": [
+        "packages/*",
+        "playground",
+        "playground/*"
+      ],
+      "funding": {
+        "type": "github",
+        "url": "https://github.com/sponsors/darkroomengineering"
+      },
+      "peerDependencies": {
+        "@nuxt/kit": ">=3.0.0",
+        "react": ">=17.0.0",
+        "vue": ">=3.0.0"
+      },
+      "peerDependenciesMeta": {
+        "@nuxt/kit": {
+          "optional": true
+        },
+        "react": {
+          "optional": true
+        },
+        "vue": {
+          "optional": true
+        }
+      }
+    },
+    "node_modules/lightningcss": {
+      "version": "1.32.0",
+      "resolved": "https://registry.npmjs.org/lightningcss/-/lightningcss-1.32.0.tgz",
+      "integrity": "sha512-NXYBzinNrblfraPGyrbPoD19C1h9lfI/1mzgWYvXUTe414Gz/X1FD2XBZSZM7rRTrMA8JL3OtAaGifrIKhQ5yQ==",
+      "dev": true,
+      "license": "MPL-2.0",
+      "dependencies": {
+        "detect-libc": "^2.0.3"
+      },
+      "engines": {
+        "node": ">= 12.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      },
+      "optionalDependencies": {
+        "lightningcss-android-arm64": "1.32.0",
+        "lightningcss-darwin-arm64": "1.32.0",
+        "lightningcss-darwin-x64": "1.32.0",
+        "lightningcss-freebsd-x64": "1.32.0",
+        "lightningcss-linux-arm-gnueabihf": "1.32.0",
+        "lightningcss-linux-arm64-gnu": "1.32.0",
+        "lightningcss-linux-arm64-musl": "1.32.0",
+        "lightningcss-linux-x64-gnu": "1.32.0",
+        "lightningcss-linux-x64-musl": "1.32.0",
+        "lightningcss-win32-arm64-msvc": "1.32.0",
+        "lightningcss-win32-x64-msvc": "1.32.0"
+      }
+    },
+    "node_modules/lightningcss-android-arm64": {
+      "version": "1.32.0",
+      "resolved": "https://registry.npmjs.org/lightningcss-android-arm64/-/lightningcss-android-arm64-1.32.0.tgz",
+      "integrity": "sha512-YK7/ClTt4kAK0vo6w3X+Pnm0D2cf2vPHbhOXdoNti1Ga0al1P4TBZhwjATvjNwLEBCnKvjJc2jQgHXH0NEwlAg==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MPL-2.0",
+      "optional": true,
+      "os": [
+        "android"
+      ],
+      "engines": {
+        "node": ">= 12.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/lightningcss-darwin-arm64": {
+      "version": "1.32.0",
+      "resolved": "https://registry.npmjs.org/lightningcss-darwin-arm64/-/lightningcss-darwin-arm64-1.32.0.tgz",
+      "integrity": "sha512-RzeG9Ju5bag2Bv1/lwlVJvBE3q6TtXskdZLLCyfg5pt+HLz9BqlICO7LZM7VHNTTn/5PRhHFBSjk5lc4cmscPQ==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MPL-2.0",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": ">= 12.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/lightningcss-darwin-x64": {
+      "version": "1.32.0",
+      "resolved": "https://registry.npmjs.org/lightningcss-darwin-x64/-/lightningcss-darwin-x64-1.32.0.tgz",
+      "integrity": "sha512-U+QsBp2m/s2wqpUYT/6wnlagdZbtZdndSmut/NJqlCcMLTWp5muCrID+K5UJ6jqD2BFshejCYXniPDbNh73V8w==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MPL-2.0",
+      "optional": true,
+      "os": [
+        "darwin"
+      ],
+      "engines": {
+        "node": ">= 12.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/lightningcss-freebsd-x64": {
+      "version": "1.32.0",
+      "resolved": "https://registry.npmjs.org/lightningcss-freebsd-x64/-/lightningcss-freebsd-x64-1.32.0.tgz",
+      "integrity": "sha512-JCTigedEksZk3tHTTthnMdVfGf61Fky8Ji2E4YjUTEQX14xiy/lTzXnu1vwiZe3bYe0q+SpsSH/CTeDXK6WHig==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MPL-2.0",
+      "optional": true,
+      "os": [
+        "freebsd"
+      ],
+      "engines": {
+        "node": ">= 12.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/lightningcss-linux-arm-gnueabihf": {
+      "version": "1.32.0",
+      "resolved": "https://registry.npmjs.org/lightningcss-linux-arm-gnueabihf/-/lightningcss-linux-arm-gnueabihf-1.32.0.tgz",
+      "integrity": "sha512-x6rnnpRa2GL0zQOkt6rts3YDPzduLpWvwAF6EMhXFVZXD4tPrBkEFqzGowzCsIWsPjqSK+tyNEODUBXeeVHSkw==",
+      "cpu": [
+        "arm"
+      ],
+      "dev": true,
+      "license": "MPL-2.0",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 12.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/lightningcss-linux-arm64-gnu": {
+      "version": "1.32.0",
+      "resolved": "https://registry.npmjs.org/lightningcss-linux-arm64-gnu/-/lightningcss-linux-arm64-gnu-1.32.0.tgz",
+      "integrity": "sha512-0nnMyoyOLRJXfbMOilaSRcLH3Jw5z9HDNGfT/gwCPgaDjnx0i8w7vBzFLFR1f6CMLKF8gVbebmkUN3fa/kQJpQ==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MPL-2.0",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 12.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/lightningcss-linux-arm64-musl": {
+      "version": "1.32.0",
+      "resolved": "https://registry.npmjs.org/lightningcss-linux-arm64-musl/-/lightningcss-linux-arm64-musl-1.32.0.tgz",
+      "integrity": "sha512-UpQkoenr4UJEzgVIYpI80lDFvRmPVg6oqboNHfoH4CQIfNA+HOrZ7Mo7KZP02dC6LjghPQJeBsvXhJod/wnIBg==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MPL-2.0",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 12.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/lightningcss-linux-x64-gnu": {
+      "version": "1.32.0",
+      "resolved": "https://registry.npmjs.org/lightningcss-linux-x64-gnu/-/lightningcss-linux-x64-gnu-1.32.0.tgz",
+      "integrity": "sha512-V7Qr52IhZmdKPVr+Vtw8o+WLsQJYCTd8loIfpDaMRWGUZfBOYEJeyJIkqGIDMZPwPx24pUMfwSxxI8phr/MbOA==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MPL-2.0",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 12.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/lightningcss-linux-x64-musl": {
+      "version": "1.32.0",
+      "resolved": "https://registry.npmjs.org/lightningcss-linux-x64-musl/-/lightningcss-linux-x64-musl-1.32.0.tgz",
+      "integrity": "sha512-bYcLp+Vb0awsiXg/80uCRezCYHNg1/l3mt0gzHnWV9XP1W5sKa5/TCdGWaR/zBM2PeF/HbsQv/j2URNOiVuxWg==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MPL-2.0",
+      "optional": true,
+      "os": [
+        "linux"
+      ],
+      "engines": {
+        "node": ">= 12.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/lightningcss-win32-arm64-msvc": {
+      "version": "1.32.0",
+      "resolved": "https://registry.npmjs.org/lightningcss-win32-arm64-msvc/-/lightningcss-win32-arm64-msvc-1.32.0.tgz",
+      "integrity": "sha512-8SbC8BR40pS6baCM8sbtYDSwEVQd4JlFTOlaD3gWGHfThTcABnNDBda6eTZeqbofalIJhFx0qKzgHJmcPTnGdw==",
+      "cpu": [
+        "arm64"
+      ],
+      "dev": true,
+      "license": "MPL-2.0",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">= 12.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/lightningcss-win32-x64-msvc": {
+      "version": "1.32.0",
+      "resolved": "https://registry.npmjs.org/lightningcss-win32-x64-msvc/-/lightningcss-win32-x64-msvc-1.32.0.tgz",
+      "integrity": "sha512-Amq9B/SoZYdDi1kFrojnoqPLxYhQ4Wo5XiL8EVJrVsB8ARoC1PWW6VGtT0WKCemjy8aC+louJnjS7U18x3b06Q==",
+      "cpu": [
+        "x64"
+      ],
+      "dev": true,
+      "license": "MPL-2.0",
+      "optional": true,
+      "os": [
+        "win32"
+      ],
+      "engines": {
+        "node": ">= 12.0.0"
+      },
+      "funding": {
+        "type": "opencollective",
+        "url": "https://opencollective.com/parcel"
+      }
+    },
+    "node_modules/nanoid": {
+      "version": "3.3.11",
+      "resolved": "https://registry.npmjs.org/nanoid/-/nanoid-3.3.11.tgz",
+      "integrity": "sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==",
+      "dev": true,
+      "funding": [
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/ai"
+        }
+      ],
+      "license": "MIT",
+      "bin": {
+        "nanoid": "bin/nanoid.cjs"
+      },
+      "engines": {
+        "node": "^10 || ^12 || ^13.7 || ^14 || >=15.0.1"
+      }
+    },
+    "node_modules/picocolors": {
+      "version": "1.1.1",
+      "resolved": "https://registry.npmjs.org/picocolors/-/picocolors-1.1.1.tgz",
+      "integrity": "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA==",
+      "dev": true,
+      "license": "ISC"
+    },
+    "node_modules/picomatch": {
+      "version": "4.0.4",
+      "resolved": "https://registry.npmjs.org/picomatch/-/picomatch-4.0.4.tgz",
+      "integrity": "sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==",
+      "dev": true,
+      "license": "MIT",
+      "engines": {
+        "node": ">=12"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/jonschlinkert"
+      }
+    },
+    "node_modules/postcss": {
+      "version": "8.5.8",
+      "resolved": "https://registry.npmjs.org/postcss/-/postcss-8.5.8.tgz",
+      "integrity": "sha512-OW/rX8O/jXnm82Ey1k44pObPtdblfiuWnrd8X7GJ7emImCOstunGbXUpp7HdBrFQX6rJzn3sPT397Wp5aCwCHg==",
+      "dev": true,
+      "funding": [
+        {
+          "type": "opencollective",
+          "url": "https://opencollective.com/postcss/"
+        },
+        {
+          "type": "tidelift",
+          "url": "https://tidelift.com/funding/github/npm/postcss"
+        },
+        {
+          "type": "github",
+          "url": "https://github.com/sponsors/ai"
+        }
+      ],
+      "license": "MIT",
+      "dependencies": {
+        "nanoid": "^3.3.11",
+        "picocolors": "^1.1.1",
+        "source-map-js": "^1.2.1"
+      },
+      "engines": {
+        "node": "^10 || ^12 || >=14"
+      }
+    },
+    "node_modules/rolldown": {
+      "version": "1.0.0-rc.11",
+      "resolved": "https://registry.npmjs.org/rolldown/-/rolldown-1.0.0-rc.11.tgz",
+      "integrity": "sha512-NRjoKMusSjfRbSYiH3VSumlkgFe7kYAa3pzVOsVYVFY3zb5d7nS+a3KGQ7hJKXuYWbzJKPVQ9Wxq2UvyK+ENpw==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "@oxc-project/types": "=0.122.0",
+        "@rolldown/pluginutils": "1.0.0-rc.11"
+      },
+      "bin": {
+        "rolldown": "bin/cli.mjs"
+      },
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      },
+      "optionalDependencies": {
+        "@rolldown/binding-android-arm64": "1.0.0-rc.11",
+        "@rolldown/binding-darwin-arm64": "1.0.0-rc.11",
+        "@rolldown/binding-darwin-x64": "1.0.0-rc.11",
+        "@rolldown/binding-freebsd-x64": "1.0.0-rc.11",
+        "@rolldown/binding-linux-arm-gnueabihf": "1.0.0-rc.11",
+        "@rolldown/binding-linux-arm64-gnu": "1.0.0-rc.11",
+        "@rolldown/binding-linux-arm64-musl": "1.0.0-rc.11",
+        "@rolldown/binding-linux-ppc64-gnu": "1.0.0-rc.11",
+        "@rolldown/binding-linux-s390x-gnu": "1.0.0-rc.11",
+        "@rolldown/binding-linux-x64-gnu": "1.0.0-rc.11",
+        "@rolldown/binding-linux-x64-musl": "1.0.0-rc.11",
+        "@rolldown/binding-openharmony-arm64": "1.0.0-rc.11",
+        "@rolldown/binding-wasm32-wasi": "1.0.0-rc.11",
+        "@rolldown/binding-win32-arm64-msvc": "1.0.0-rc.11",
+        "@rolldown/binding-win32-x64-msvc": "1.0.0-rc.11"
+      }
+    },
+    "node_modules/source-map-js": {
+      "version": "1.2.1",
+      "resolved": "https://registry.npmjs.org/source-map-js/-/source-map-js-1.2.1.tgz",
+      "integrity": "sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==",
+      "dev": true,
+      "license": "BSD-3-Clause",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/tinyglobby": {
+      "version": "0.2.15",
+      "resolved": "https://registry.npmjs.org/tinyglobby/-/tinyglobby-0.2.15.tgz",
+      "integrity": "sha512-j2Zq4NyQYG5XMST4cbs02Ak8iJUdxRM0XI5QyxXuZOzKOINmWurp3smXu3y5wDcJrptwpSjgXHzIQxR0omXljQ==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "fdir": "^6.5.0",
+        "picomatch": "^4.0.3"
+      },
+      "engines": {
+        "node": ">=12.0.0"
+      },
+      "funding": {
+        "url": "https://github.com/sponsors/SuperchupuDev"
+      }
+    },
+    "node_modules/tslib": {
+      "version": "2.8.1",
+      "resolved": "https://registry.npmjs.org/tslib/-/tslib-2.8.1.tgz",
+      "integrity": "sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==",
+      "dev": true,
+      "license": "0BSD",
+      "optional": true
+    },
+    "node_modules/vite": {
+      "version": "8.0.2",
+      "resolved": "https://registry.npmjs.org/vite/-/vite-8.0.2.tgz",
+      "integrity": "sha512-1gFhNi+bHhRE/qKZOJXACm6tX4bA3Isy9KuKF15AgSRuRazNBOJfdDemPBU16/mpMxApDPrWvZ08DcLPEoRnuA==",
+      "dev": true,
+      "license": "MIT",
+      "dependencies": {
+        "lightningcss": "^1.32.0",
+        "picomatch": "^4.0.3",
+        "postcss": "^8.5.8",
+        "rolldown": "1.0.0-rc.11",
+        "tinyglobby": "^0.2.15"
+      },
+      "bin": {
+        "vite": "bin/vite.js"
+      },
+      "engines": {
+        "node": "^20.19.0 || >=22.12.0"
+      },
+      "funding": {
+        "url": "https://github.com/vitejs/vite?sponsor=1"
+      },
+      "optionalDependencies": {
+        "fsevents": "~2.3.3"
+      },
+      "peerDependencies": {
+        "@types/node": "^20.19.0 || >=22.12.0",
+        "@vitejs/devtools": "^0.1.0",
+        "esbuild": "^0.27.0",
+        "jiti": ">=1.21.0",
+        "less": "^4.0.0",
+        "sass": "^1.70.0",
+        "sass-embedded": "^1.70.0",
+        "stylus": ">=0.54.8",
+        "sugarss": "^5.0.0",
+        "terser": "^5.16.0",
+        "tsx": "^4.8.1",
+        "yaml": "^2.4.2"
+      },
+      "peerDependenciesMeta": {
+        "@types/node": {
+          "optional": true
+        },
+        "@vitejs/devtools": {
+          "optional": true
+        },
+        "esbuild": {
+          "optional": true
+        },
+        "jiti": {
+          "optional": true
+        },
+        "less": {
+          "optional": true
+        },
+        "sass": {
+          "optional": true
+        },
+        "sass-embedded": {
+          "optional": true
+        },
+        "stylus": {
+          "optional": true
+        },
+        "sugarss": {
+          "optional": true
+        },
+        "terser": {
+          "optional": true
+        },
+        "tsx": {
+          "optional": true
+        },
+        "yaml": {
+          "optional": true
+        }
+      }
+    }
+  }
+}
+
+{
+  "name": "alex-school-project",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^8.0.1"
+  },
+  "dependencies": {
+    "gsap": "^3.14.2",
+    "lenis": "^1.3.20"
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Current state of character customization
+    let state = {
+        skinColor: '#ffffff',
+        bodyType: 'standard', // 'standard', 'chubby', 'tall', 'tiny'
+        hair: 'bald',         // 'bald', 'fluffy', 'pigtails', 'spiky', 'bun', 'afro'
+        hairColor: '#94a3b8', // Default grey hair color
+        eyes: 'curved',       // 'curved', 'open', 'sleepy', 'wink', 'heart'
+        smile: 'standard',    // 'standard', 'laughing', 'flat', 'surprise', 'cat'
+        clothes: 'none',      // 'none', 'tshirt', 'tanktop', 'hoodie', 'vneck'
+        clothesColor: '#94a3b8',
+        name: ''
+    };
+
+    // History stack for Undo/Redo
+    const historyStack = [];
+    let historyIndex = -1;
+
+    // DOM Elements
+    const gridContainer = document.querySelector('.grid');
+    const characterWrapper = document.querySelector('.character-wrapper');
+    const nameInput = document.querySelector('.name-input');
+    const finishBtn = document.querySelector('.finish-btn');
+    const startStudyingBtn = document.querySelector('.home-btn.primary');
+    const editBackBtn = document.querySelector('#edit-back-btn');
+    const customizerScreen = document.getElementById('customizer-screen');
+    const homeScreen = document.getElementById('home-screen');
+    const homeNameDisplay = document.getElementById('home-name-display');
+    const homeCharacterDisplay = document.querySelector('.home-character-display');
+    const nextBtn = document.querySelector('.next-step');
+    const prevBtn = document.querySelector('.prev-step');
+
+    // Sequential Customization Steps
+    const customizationSteps = [
+        { category: 'btn-body', tab: 'Body Type' },
+        { category: 'btn-body', tab: 'Skin Color' },
+        { category: 'btn-body', tab: 'Hair' },
+        { category: 'btn-body', tab: 'Hair Color' },
+        { category: 'btn-body', tab: 'Face Shape' },
+        { category: 'btn-body', tab: 'Eyes' },
+        { category: 'btn-clothes', tab: 'Style 1' },
+        { category: 'btn-clothes', tab: 'Style 2' },
+        { category: 'btn-clothes', tab: 'Color Details' }
+    ];
+    let currentStepIndex = 0;
+    
+    // Sidebar Button Selection
+    const sidebarBtns = document.querySelectorAll('.sidebar-btn');
+    sidebarBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            selectCategory(btn.id);
+        });
+    });
+
+    function selectCategory(categoryId, activeTab) {
+        sidebarBtns.forEach(b => b.classList.remove('active'));
+        const activeSidebarBtn = document.getElementById(categoryId);
+        if (activeSidebarBtn) activeSidebarBtn.classList.add('active');
+
+        const targetTab = activeTab || (categoryId === 'btn-body' ? 'Body Type' : (categoryId === 'btn-clothes' ? 'Style 1' : 'Soon'));
+
+        const newStepIndex = customizationSteps.findIndex(s => s.tab.toLowerCase() === targetTab.toLowerCase());
+        if (newStepIndex !== -1) {
+            currentStepIndex = newStepIndex;
+            updateNavButtons();
+        }
+
+        if (categoryId === 'btn-body') {
+            updateTabs(['Body Type', 'Skin Color', 'Hair', 'Hair Color', 'Face Shape', 'Eyes'], targetTab);
+        } else if (categoryId === 'btn-clothes') {
+            updateTabs(['Style 1', 'Style 2', 'Color Details'], targetTab);
+        } else {
+            updateTabs(['Soon'], 'Soon');
+        }
+    }
+
+    function updateTabs(tabNames, activeTabName) {
+        const tabsContainer = document.querySelector('.tabs');
+        tabsContainer.innerHTML = '';
+
+        tabNames.forEach((name) => {
+            const button = document.createElement('button');
+            const isActive = name.toLowerCase() === activeTabName.toLowerCase();
+            button.className = `tab-btn${isActive ? ' active' : ''}`;
+            button.textContent = name;
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                button.classList.add('active');
+                renderGrid(name.toLowerCase());
+
+                const newStepIndex = customizationSteps.findIndex(s => s.tab.toLowerCase() === name.toLowerCase());
+                if (newStepIndex !== -1) {
+                    currentStepIndex = newStepIndex;
+                    updateNavButtons();
+                }
+            });
+            tabsContainer.appendChild(button);
+        });
+
+        renderGrid(activeTabName.toLowerCase());
+    }
+
+    function saveHistory() {
+        if (historyIndex < historyStack.length - 1) {
+            historyStack.splice(historyIndex + 1);
+        }
+        // Use structuredClone if available for better performance than JSON.stringify
+        const snapshot = typeof structuredClone === 'function' ? structuredClone(state) : JSON.parse(JSON.stringify(state));
+        historyStack.push(snapshot);
+        historyIndex = historyStack.length - 1;
+        updateUndoRedoButtons();
+    }
+
+    function updateUndoRedoButtons() {
+        if (undoBtn) undoBtn.style.opacity = historyIndex > 0 ? '1' : '0.3';
+        if (redoBtn) redoBtn.style.opacity = historyIndex < historyStack.length - 1 ? '1' : '0.3';
+    }
+
+    function renderGrid(tabName) {
+        gridContainer.innerHTML = '';
+        gridContainer.style.display = 'grid';
+
+        if (tabName === 'skin color') {
+            skinColors.forEach(color => {
+                const item = document.createElement('div');
+                item.className = 'grid-item color-swatch-item';
+                item.dataset.value = color.value;
+
+                const circle = document.createElement('div');
+                circle.className = 'color-circle';
+                circle.style.backgroundColor = color.value;
+                item.appendChild(circle);
+
+                item.addEventListener('click', () => {
+                    if (state.skinColor !== color.value) {
+                        state.skinColor = color.value;
+                        renderCharacter(state, { category: 'skin color', characterWrapper });
+                        saveHistory();
+                        document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('active'));
+                        item.classList.add('active');
+                    }
+                });
+                gridContainer.appendChild(item);
+            });
+        } 
+        else if (tabName === 'style 1' || tabName === 'style 2') {
+            gridContainer.style.display = 'block';
+
+            clothesOptions[tabName].forEach(group => {
+                const section = document.createElement('div');
+                section.className = 'grid-section';
+
+                const heading = document.createElement('h3');
+                heading.className = 'grid-heading';
+                heading.textContent = group.category;
+                section.appendChild(heading);
+
+                const sectionGrid = document.createElement('div');
+                sectionGrid.className = 'grid';
+                sectionGrid.style.marginTop = '10px';
+                sectionGrid.style.marginBottom = '20px';
+
+                group.options.forEach(option => {
+                    const item = document.createElement('div');
+                    item.className = 'grid-item';
+                    if (state.clothes === option.id) item.classList.add('active');
+
+                    const svgPreview = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                    svgPreview.setAttribute('viewBox', '20 70 160 160');
+                    svgPreview.setAttribute('width', '100%');
+                    svgPreview.setAttribute('height', '100%');
+
+                    svgPreview.innerHTML = `
+                        <g transform="translate(0, -50)">
+                            <path d="M 70 140 Q 100 130 130 140 L 130 200 Q 100 210 70 200 Z" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2"/>
+                            ${option.lArm}
+                            ${option.rArm}
+                            ${option.body}
+                        </g>
+                    `;
+
+                    const clothesElements = svgPreview.querySelectorAll('path:not([fill="#f1f5f9"]), circle');
+                    clothesElements.forEach(el => {
+                        if (el.getAttribute('data-decorative') !== 'true') {
+                            el.style.fill = state.clothesColor;
+                            el.style.stroke = '#334155';
+                        }
+                    });
+
+                    item.appendChild(svgPreview);
+
+                    const label = document.createElement('span');
+                    label.className = 'preview-label';
+                    label.textContent = option.name;
+                    item.appendChild(label);
+
+                    item.addEventListener('click', () => {
+                        if (state.clothes !== option.id) {
+                            state.clothes = option.id;
+                            renderCharacter(state, { characterWrapper });
+                            saveHistory();
+                            document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('active'));
+                            item.classList.add('active');
+                        }
+                    });
+                    sectionGrid.appendChild(item);
+                });
+
+                section.appendChild(sectionGrid);
+                gridContainer.appendChild(section);
+            });
+        }
+        else if (tabName === 'color details') {
+            clothesColors.forEach(color => {
+                const item = document.createElement('div');
+                item.className = 'grid-item color-swatch-item';
+                if (state.clothesColor === color.value) item.classList.add('active');
+
+                const circle = document.createElement('div');
+                circle.className = 'color-circle';
+                circle.style.backgroundColor = color.value;
+                item.appendChild(circle);
+
+                item.addEventListener('click', () => {
+                    if (state.clothesColor !== color.value) {
+                        state.clothesColor = color.value;
+                        renderCharacter(state, { characterWrapper });
+                        saveHistory();
+                        document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('active'));
+                        item.classList.add('active');
+                    }
+                });
+                gridContainer.appendChild(item);
+            });
+        }
+        else if (tabName === 'body type') {
+            Object.keys(bodyTypes).forEach(id => {
+                const type = bodyTypes[id];
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                item.dataset.value = id;
+
+                const svgPreview = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svgPreview.setAttribute('viewBox', '0 0 60 60');
+                svgPreview.setAttribute('width', '100%');
+                svgPreview.setAttribute('height', '100%');
+                svgPreview.innerHTML = type.svg;
+                item.appendChild(svgPreview);
+
+                const label = document.createElement('span');
+                label.className = 'preview-label';
+                label.textContent = type.name;
+                item.appendChild(label);
+
+                item.addEventListener('click', () => {
+                    if (state.bodyType !== type.id) {
+                        state.bodyType = type.id;
+                        renderCharacter(state, { category: 'body type', characterWrapper });
+                        saveHistory();
+                        document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('active'));
+                        item.classList.add('active');
+                    }
+                });
+                gridContainer.appendChild(item);
+            });
+        } 
+        else if (tabName === 'hair') {
+            Object.keys(hairOptions).forEach(key => {
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                item.dataset.value = key;
+
+                const svgPreview = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svgPreview.setAttribute('viewBox', '35 20 130 65');
+                svgPreview.setAttribute('width', '100%');
+                svgPreview.setAttribute('height', '100%');
+                svgPreview.style.marginTop = '-5px';
+                svgPreview.innerHTML = `
+                    <ellipse cx="100" cy="90" rx="60" ry="50" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="2"/>
+                    ${hairOptions[key].svg}
+                `;
+                
+                const previewHairPaths = svgPreview.querySelectorAll('path, circle, ellipse');
+                previewHairPaths.forEach(el => {
+                    if (el.getAttribute('data-accessory') !== 'true') {
+                        el.style.fill = state.hairColor;
+                    }
+                });
+                item.appendChild(svgPreview);
+
+                const label = document.createElement('span');
+                label.className = 'preview-label';
+                label.textContent = hairOptions[key].name;
+                item.appendChild(label);
+
+                item.addEventListener('click', () => {
+                    if (state.hair !== key) {
+                        state.hair = key;
+                        renderCharacter(state, { category: 'hair', characterWrapper });
+                        saveHistory();
+                        document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('active'));
+                        item.classList.add('active');
+                    }
+                });
+                gridContainer.appendChild(item);
+            });
+        }
+        else if (tabName === 'hair color') {
+            hairColors.forEach(color => {
+                const item = document.createElement('div');
+                item.className = 'grid-item color-swatch-item';
+                item.dataset.value = color.value;
+
+                const circle = document.createElement('div');
+                circle.className = 'color-circle';
+                circle.style.backgroundColor = color.value;
+                item.appendChild(circle);
+
+                item.addEventListener('click', () => {
+                    if (state.hairColor !== color.value) {
+                        state.hairColor = color.value;
+                        renderCharacter(state, { category: 'hair color', characterWrapper });
+                        saveHistory();
+                        document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('active'));
+                        item.classList.add('active');
+                    }
+                });
+                gridContainer.appendChild(item);
+            });
+        }
+        else if (tabName === 'eyes') {
+            Object.keys(eyesOptions).forEach(key => {
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                item.dataset.value = key;
+
+                const svgPreview = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svgPreview.setAttribute('viewBox', '60 68 80 25');
+                svgPreview.setAttribute('width', '90%');
+                svgPreview.setAttribute('height', '90%');
+                svgPreview.style.marginTop = '-5px';
+                svgPreview.innerHTML = eyesOptions[key].svg;
+                item.appendChild(svgPreview);
+
+                const label = document.createElement('span');
+                label.className = 'preview-label';
+                label.textContent = eyesOptions[key].name;
+                item.appendChild(label);
+
+                item.addEventListener('click', () => {
+                    if (state.eyes !== key) {
+                        state.eyes = key;
+                        renderCharacter(state, { category: 'eyes', characterWrapper });
+                        saveHistory();
+                        document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('active'));
+                        item.classList.add('active');
+                    }
+                });
+                gridContainer.appendChild(item);
+            });
+        } 
+        else if (tabName === 'face shape') {
+            Object.keys(smileOptions).forEach(key => {
+                const item = document.createElement('div');
+                item.className = 'grid-item';
+                item.dataset.value = key;
+
+                const svgPreview = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+                svgPreview.setAttribute('viewBox', '80 98 40 25');
+                svgPreview.setAttribute('width', '80%');
+                svgPreview.setAttribute('height', '80%');
+                svgPreview.innerHTML = smileOptions[key].svg;
+                item.appendChild(svgPreview);
+
+                const label = document.createElement('span');
+                label.className = 'preview-label';
+                label.textContent = smileOptions[key].name;
+                item.appendChild(label);
+
+                item.addEventListener('click', () => {
+                    if (state.smile !== key) {
+                        state.smile = key;
+                        renderCharacter(state, { category: 'face shape', characterWrapper });
+                        saveHistory();
+                        document.querySelectorAll('.grid-item').forEach(el => el.classList.remove('active'));
+                        item.classList.add('active');
+                    }
+                });
+                gridContainer.appendChild(item);
+            });
+        } 
+        else {
+            for (let i = 0; i < 8; i++) {
+                const item = document.createElement('div');
+                item.className = 'grid-item placeholder-item';
+                item.style.backgroundColor = '#f1f5f9';
+                item.style.color = '#94a3b8';
+                item.style.fontSize = '24px';
+                item.textContent = '...';
+                
+                const label = document.createElement('span');
+                label.style.position = 'absolute';
+                label.style.bottom = '4px';
+                label.style.fontSize = '8px';
+                label.style.color = '#94a3b8';
+                label.textContent = 'Soon';
+                item.appendChild(label);
+                fragment.appendChild(item);
+            }
+        }
+
+        gridCache.set(tabName, fragment);
+        gridContainer.innerHTML = '';
+        gridContainer.appendChild(gridCache.get(tabName).cloneNode(true));
+        updateGridActiveStates(tabName);
+    }
+
+    tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            tabBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            
+            const selectedTab = btn.textContent.trim().toLowerCase();
+            renderGrid(selectedTab);
+        });
+    }
+
+    const undoBtn = document.querySelector('.undo-btn');
+    const redoBtn = document.querySelector('.redo-btn');
+
+    if (undoBtn) {
+        undoBtn.addEventListener('click', () => {
+            if (historyIndex > 0) {
+                historyIndex--;
+                state = JSON.parse(historyStack[historyIndex]);
+                const activeTab = document.querySelector('.tab-btn.active').textContent.trim().toLowerCase();
+                renderCharacter(state, { category: activeTab, characterWrapper });
+                updateUndoRedoButtons();
+                renderGrid(activeTab);
+            }
+        });
+    }
+
+    if (redoBtn) {
+        redoBtn.addEventListener('click', () => {
+            if (historyIndex < historyStack.length - 1) {
+                historyIndex++;
+                state = JSON.parse(historyStack[historyIndex]);
+                const activeTab = document.querySelector('.tab-btn.active').textContent.trim().toLowerCase();
+                renderCharacter(state, { category: activeTab, characterWrapper });
+                updateUndoRedoButtons();
+                renderGrid(activeTab);
+            }
+        });
+    }
+
+    if (nameInput) {
+        const mirror = document.createElement('span');
+        mirror.style.position = 'absolute';
+        mirror.style.visibility = 'hidden';
+        mirror.style.whiteSpace = 'pre';
+        mirror.style.fontFamily = getComputedStyle(nameInput).fontFamily;
+        mirror.style.fontSize = getComputedStyle(nameInput).fontSize;
+        mirror.style.fontWeight = getComputedStyle(nameInput).fontWeight;
+        mirror.style.letterSpacing = getComputedStyle(nameInput).letterSpacing;
+        document.body.appendChild(mirror);
+
+        const resizeInput = () => {
+            const val = nameInput.value || nameInput.placeholder || '___';
+            mirror.textContent = val;
+            nameInput.style.width = (mirror.offsetWidth + 6) + 'px';
+        };
+
+        nameInput.addEventListener('input', (e) => {
+            state.name = e.target.value;
+            resizeInput();
+        });
+
+        resizeInput();
+    }
+
+    function updateNavButtons() {
+        prevBtn.style.visibility = currentStepIndex === 0 ? 'hidden' : 'visible';
+
+        if (currentStepIndex === customizationSteps.length - 1) {
+            nextBtn.style.display = 'none';
+            finishBtn.style.display = 'block';
+        } else {
+            nextBtn.style.display = 'block';
+            finishBtn.style.display = 'none';
+        }
+    }
+
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            if (currentStepIndex < customizationSteps.length - 1) {
+                currentStepIndex++;
+                const step = customizationSteps[currentStepIndex];
+                selectCategory(step.category, step.tab);
+                updateNavButtons();
+            }
+        });
+    }
+
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            if (currentStepIndex > 0) {
+                currentStepIndex--;
+                const step = customizationSteps[currentStepIndex];
+                selectCategory(step.category, step.tab);
+                updateNavButtons();
+            }
+        });
+    }
+
+    if (finishBtn) {
+        finishBtn.addEventListener('click', () => {
+            customizerScreen.style.display = 'none';
+            homeScreen.style.display = 'flex';
+
+            homeNameDisplay.textContent = state.name || 'Buddy';
+
+            homeCharacterDisplay.innerHTML = '';
+            const characterClone = characterWrapper.cloneNode(true);
+            homeCharacterDisplay.appendChild(characterClone);
+
+            // Save state to localStorage for the next page
+            localStorage.setItem('characterState', JSON.stringify(state));
+        });
+    }
+
+    if (startStudyingBtn) {
+        startStudyingBtn.addEventListener('click', () => {
+            // Final save before navigation
+            localStorage.setItem('characterState', JSON.stringify(state));
+            window.location.href = 'home.html';
+        });
+    }
+
+    if (editBackBtn) {
+        editBackBtn.addEventListener('click', () => {
+            homeScreen.style.display = 'none';
+            customizerScreen.style.display = 'flex';
+        });
+    }
+
+    saveHistory();
+    renderCharacter(state, { isLoad: true, characterWrapper });
+    currentStepIndex = 0;
+    const initialStep = customizationSteps[currentStepIndex];
+    selectCategory(initialStep.category, initialStep.tab);
+    updateNavButtons();
+});
+
+function generateMiiSpriteSheet() {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 512;
+    canvas.height = 512;
+    const frameSize = 128; // 4x4 grid
+
+    const drawMii = (x, y, mouthType, eyeType) => {
+        const cx = x + frameSize / 2;
+        const cy = y + frameSize / 2;
+
+        // Face
+        ctx.fillStyle = '#ffd8be';
+        ctx.beginPath();
+        ctx.arc(cx, cy, 40, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = '#7f5539';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Eyes
+        ctx.fillStyle = '#333';
+        if (eyeType === 'blink') {
+            ctx.fillRect(cx - 20, cy - 10, 10, 2);
+            ctx.fillRect(cx + 10, cy - 10, 10, 2);
+        } else if (eyeType === 'happy') {
+            ctx.beginPath();
+            ctx.arc(cx - 15, cy - 5, 8, Math.PI, 0);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(cx + 15, cy - 5, 8, Math.PI, 0);
+            ctx.stroke();
+        } else {
+            ctx.beginPath();
+            ctx.arc(cx - 15, cy - 10, 5, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(cx + 15, cy - 10, 5, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Mouth
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 3;
+        if (mouthType === 'open') {
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.ellipse(cx, cy + 15, 10, 8, 0, 0, Math.PI * 2);
+            ctx.fill();
+        } else if (mouthType === 'smile') {
+            ctx.beginPath();
+            ctx.arc(cx, cy + 10, 15, 0.2, Math.PI - 0.2);
+            ctx.stroke();
+        } else {
+            ctx.beginPath();
+            ctx.moveTo(cx - 10, cy + 15);
+            ctx.lineTo(cx + 10, cy + 15);
+            ctx.stroke();
+        }
+    };
+
+    // Row 0: Idle
+    for (let i = 0; i < 4; i++) {
+        drawMii(i * frameSize, 0, 'smile', i === 3 ? 'blink' : 'open');
+    }
+
+    // Row 1: Talking
+    for (let i = 0; i < 4; i++) {
+        drawMii(i * frameSize, frameSize, i % 2 === 0 ? 'open' : 'flat', 'open');
+    }
+
+    // Row 2: Happy
+    for (let i = 0; i < 4; i++) {
+        drawMii(i * frameSize, frameSize * 2, 'smile', 'happy');
+    }
+
+    return canvas.toDataURL();
+}
+window.generateMiiSpriteSheet = generateMiiSpriteSheet;
